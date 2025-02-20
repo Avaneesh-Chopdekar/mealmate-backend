@@ -2,10 +2,14 @@ package com.mealmate.backend.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
+@Setter
 @Entity
 @DiscriminatorValue("RIDER")
 public class Rider extends User {
