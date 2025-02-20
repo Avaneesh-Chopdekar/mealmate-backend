@@ -17,7 +17,7 @@ public class OrderController {
 
     private OrderRepository orderRepository;
 
-    @PostMapping
+    @PostMapping("/place")
     public ResponseEntity<Order> placeOrder(@RequestBody Order order) {
         order.setStatus(OrderStatus.PENDING);
         return ResponseEntity.ok(orderRepository.save(order));
