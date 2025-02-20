@@ -2,7 +2,9 @@ package com.mealmate.backend.entity;
 
 
 import jakarta.persistence.*;
+import lombok.Data;
 
+@Data
 @Entity
 public class Order {
     @Id
