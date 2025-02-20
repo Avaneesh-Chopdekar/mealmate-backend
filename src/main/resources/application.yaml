@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: MealMate
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+
+  jpa:
+    show-sql: true
+    format-sql: true
+    hibernate:
+      ddl-auto: ${DB_DDL:update}
+      dialect: org.hibernate.dialect.MySQL8Dialect
+
+server:
+  port: 8080
