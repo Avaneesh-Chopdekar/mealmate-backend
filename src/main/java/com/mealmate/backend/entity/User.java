@@ -32,5 +32,7 @@ public abstract class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
+
+    private boolean enabled = false;
 }
 
