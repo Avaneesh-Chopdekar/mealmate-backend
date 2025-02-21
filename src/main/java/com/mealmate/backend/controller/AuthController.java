@@ -3,7 +3,8 @@ package com.mealmate.backend.controller;
 import com.mealmate.backend.dto.JwtResponse;
 import com.mealmate.backend.dto.LoginRequest;
 import com.mealmate.backend.dto.RefreshTokenRequest;
-import com.mealmate.backend.entity.User;
+import com.mealmate.backend.dto.SignupRequest;
+import com.mealmate.backend.entity.*;
 import com.mealmate.backend.repository.UserRepository;
 import com.mealmate.backend.service.JwtService;
 import lombok.RequiredArgsConstructor;
@@ -12,10 +13,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
@@ -26,6 +30,45 @@ public class AuthController {
     private final UserDetailsService userDetailsService;
     private final JwtService jwtService;
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+
+    @PostMapping("/signup")
+    public ResponseEntity<?> signup(@RequestBody SignupRequest request) {
+        Optional<User> existingUser = userRepository.findByEmail(request.getEmail());
+        if (existingUser.isPresent()) {
+            return ResponseEntity.badRequest().body("Email is already in use.");
+        }
+
+        User newUser;
+        switch (request.getRole()) {
+            case CONSUMER:
+                newUser = new Consumer();
+                break;
+            case RIDER:
+                newUser = new Rider();
+                break;
+            case RESTAURANT:
+                newUser = new Restaurant();
+                break;
+//            case ADMIN:
+//                newUser = new Admin();
+//                break;
+            default:
+                return ResponseEntity.badRequest().body("Invalid role provided.");
+        }
+
+        newUser.setName(request.getName());
+        newUser.setEmail(request.getEmail());
+        newUser.setPassword(passwordEncoder.encode(request.getPassword()));
+        newUser.setRole(request.getRole());
+
+        userRepository.save(newUser);
+
+        String accessToken = jwtService.generateToken(request.getEmail(), true);
+        String refreshToken = jwtService.generateToken(request.getEmail(), false);
+        JwtResponse response = new JwtResponse(accessToken, refreshToken, newUser);
+        return ResponseEntity.ok(response);
+    }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
