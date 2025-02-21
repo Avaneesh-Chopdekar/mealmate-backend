@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@DiscriminatorValue("CONSUMER")
+@Table(name = "consumers")
 public class Consumer extends User {
 
     @OneToMany(mappedBy = "consumer", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)

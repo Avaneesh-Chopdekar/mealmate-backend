@@ -11,7 +11,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@DiscriminatorValue("RIDER")
+@Table(name = "riders")
 public class Rider extends User {
 
     @NotBlank
