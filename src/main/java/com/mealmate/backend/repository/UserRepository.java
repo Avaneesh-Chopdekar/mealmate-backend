@@ -14,4 +14,6 @@ public interface UserRepository extends BaseRepository<User, Long> {
     List<User> findByRole(Role role, Pageable pageable);
 
     Optional<User> findByEmailIgnoreCase(String email);
+
+    Optional<User> findByEmail(String email);
 }
