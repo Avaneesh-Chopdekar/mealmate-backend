@@ -1,37 +1,35 @@
 package com.mealmate.backend.service;
 
+import com.mealmate.backend.config.CustomProperties;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 
+@RequiredArgsConstructor
 @Service
 public class JwtService {
 
-    @Value("${app.jwt.secret}")
-    public static String SECRET_KEY;
-    @Value("${app.jwt.access-token-expiration}")
-    public static long ACCESS_TOKEN_EXPIRATION;
-    @Value("${app.jwt.refresh-token-expiration}")
-    public static long REFRESH_TOKEN_EXPIRATION;
+    private final CustomProperties customProperties;
 
     public String generateToken(String username, boolean isAccessToken) {
-        long expiration = isAccessToken ? ACCESS_TOKEN_EXPIRATION : REFRESH_TOKEN_EXPIRATION;
+        long expiration = isAccessToken ? customProperties.getAccessTokenExpiration() : customProperties.getRefreshTokenExpiration();
         return Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
-                .signWith(Keys.hmacShaKeyFor(SECRET_KEY.getBytes()), SignatureAlgorithm.HS256)
+                .signWith(Keys.hmacShaKeyFor(customProperties.getJwtSecret().getBytes()), SignatureAlgorithm.HS256)
                 .compact();
     }
 
     public String extractUsername(String token) {
         return Jwts.parser()
-                .setSigningKey(SECRET_KEY.getBytes())
+                .setSigningKey(customProperties.getJwtSecret().getBytes())
                 .build()
                 .parseClaimsJws(token)
                 .getBody()
@@ -41,7 +39,7 @@ public class JwtService {
     public boolean validateToken(String token) {
         try {
             Jwts.parser()
-                    .setSigningKey(SECRET_KEY.getBytes())
+                    .setSigningKey(customProperties.getJwtSecret().getBytes())
                     .build()
                     .parseClaimsJws(token);
             return true;
