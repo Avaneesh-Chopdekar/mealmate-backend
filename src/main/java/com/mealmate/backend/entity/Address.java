@@ -27,6 +27,6 @@ public class Address extends BaseEntity {
     private String country;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "consumer_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = true)
     private Consumer consumer;
 }
