@@ -1,11 +1,11 @@
 package com.mealmate.backend.dto;
 
-import com.mealmate.backend.entity.User;
+import com.mealmate.backend.dto.UserDto;
 
 public record JwtResponse(
         String accessToken,
         String refreshToken,
-        User user
+        UserDto user
 ) {
 
 }

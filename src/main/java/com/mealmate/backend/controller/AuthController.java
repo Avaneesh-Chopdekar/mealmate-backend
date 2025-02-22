@@ -1,9 +1,6 @@
 package com.mealmate.backend.controller;
 
-import com.mealmate.backend.dto.JwtResponse;
-import com.mealmate.backend.dto.LoginRequest;
-import com.mealmate.backend.dto.RefreshTokenRequest;
-import com.mealmate.backend.dto.SignupRequest;
+import com.mealmate.backend.dto.*;
 import com.mealmate.backend.entity.*;
 import com.mealmate.backend.repository.UserRepository;
 import com.mealmate.backend.service.JwtService;
@@ -66,7 +63,7 @@ public class AuthController {
 
         String accessToken = jwtService.generateToken(request.getEmail(), true);
         String refreshToken = jwtService.generateToken(request.getEmail(), false);
-        JwtResponse response = new JwtResponse(accessToken, refreshToken, newUser);
+        JwtResponse response = new JwtResponse(accessToken, refreshToken, UserDto.fromEntity(newUser));
         return ResponseEntity.ok(response);
     }
 
@@ -78,7 +75,7 @@ public class AuthController {
         String accessToken = jwtService.generateToken(request.getEmail(), true);
         String refreshToken = jwtService.generateToken(request.getEmail(), false);
         User user = userRepository.findByEmail(request.getEmail()).get();
-        JwtResponse response = new JwtResponse(accessToken, refreshToken, user);
+        JwtResponse response = new JwtResponse(accessToken, refreshToken, UserDto.fromEntity(user));
         return ResponseEntity.ok(response);
     }
 
@@ -89,7 +86,7 @@ public class AuthController {
             String accessToken = jwtService.generateToken(username, true);
             String refreshToken = jwtService.generateToken(username, false);
             User user = userRepository.findByEmail(username).get();
-            JwtResponse response = new JwtResponse(accessToken, refreshToken, user);
+            JwtResponse response = new JwtResponse(accessToken, refreshToken, UserDto.fromEntity(user));
             return ResponseEntity.ok(response);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid refresh token");
