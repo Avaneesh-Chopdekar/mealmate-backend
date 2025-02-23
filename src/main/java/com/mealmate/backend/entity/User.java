@@ -1,5 +1,6 @@
 package com.mealmate.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -26,6 +27,7 @@ public abstract class User extends BaseEntity {
 
     @NotBlank
     @Size(min = 6, max = 100)
+    @JsonIgnore
     private String password;
 
     @Enumerated(EnumType.STRING)
