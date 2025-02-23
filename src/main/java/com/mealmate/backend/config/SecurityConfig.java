@@ -14,6 +14,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+// TODO: In future, restrict swagger-ui access to admin only
+
 @RequiredArgsConstructor
 @Configuration
 public class SecurityConfig {
@@ -27,7 +29,7 @@ public class SecurityConfig {
             .csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(auth->
                 auth
-                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/api/auth/**", "/api/swagger-ui/**").permitAll()
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .requestMatchers("/api/restaurant/**").hasAnyRole("RESTAURANT", "ADMIN")
                         .requestMatchers("/api/rider/**").hasAnyRole("RIDER", "ADMIN")
