@@ -35,5 +35,8 @@ public abstract class User extends BaseEntity {
     private Role role;
 
     private boolean enabled = true;
+
+    @Column(length = 500)
+    private String refreshToken;
 }
 
