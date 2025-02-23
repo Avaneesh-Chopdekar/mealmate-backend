@@ -11,10 +11,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -54,15 +51,17 @@ public class AuthController {
                 return ResponseEntity.badRequest().body("Invalid role provided.");
         }
 
+        String accessToken = jwtService.generateToken(request.getEmail(), true);
+        String refreshToken = jwtService.generateToken(request.getEmail(), false);
+
         newUser.setName(request.getName());
         newUser.setEmail(request.getEmail());
         newUser.setPassword(passwordEncoder.encode(request.getPassword()));
         newUser.setRole(request.getRole());
+        newUser.setRefreshToken(refreshToken);
 
         userRepository.save(newUser);
 
-        String accessToken = jwtService.generateToken(request.getEmail(), true);
-        String refreshToken = jwtService.generateToken(request.getEmail(), false);
         JwtResponse response = new JwtResponse(accessToken, refreshToken, UserDto.fromEntity(newUser));
         return ResponseEntity.ok(response);
     }
@@ -75,6 +74,7 @@ public class AuthController {
         String accessToken = jwtService.generateToken(request.getEmail(), true);
         String refreshToken = jwtService.generateToken(request.getEmail(), false);
         User user = userRepository.findByEmail(request.getEmail()).get();
+        user.setRefreshToken(refreshToken);
         JwtResponse response = new JwtResponse(accessToken, refreshToken, UserDto.fromEntity(user));
         return ResponseEntity.ok(response);
     }
@@ -86,10 +86,24 @@ public class AuthController {
             String accessToken = jwtService.generateToken(username, true);
             String refreshToken = jwtService.generateToken(username, false);
             User user = userRepository.findByEmail(username).get();
+            user.setRefreshToken(refreshToken);
             JwtResponse response = new JwtResponse(accessToken, refreshToken, UserDto.fromEntity(user));
             return ResponseEntity.ok(response);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid refresh token");
         }
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(@RequestHeader("Authorization") String tokenHeader) {
+        String email = jwtService.extractUsername(tokenHeader.substring(7));
+
+        User user = userRepository.findByEmail(email).orElseThrow(
+                () -> new RuntimeException("User not found")
+        );
+        user.setRefreshToken(null);
+        userRepository.save(user);
+
+        return ResponseEntity.ok("Logged out successfully");
     }
 }
