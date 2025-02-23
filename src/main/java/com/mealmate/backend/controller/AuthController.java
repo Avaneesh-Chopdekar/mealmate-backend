@@ -47,9 +47,9 @@ public class AuthController {
             case RESTAURANT:
                 newUser = new Restaurant();
                 break;
-//            case ADMIN:
-//                newUser = new Admin();
-//                break;
+            case ADMIN:
+                newUser = new Admin();
+                break;
             default:
                 return ResponseEntity.badRequest().body("Invalid role provided.");
         }
