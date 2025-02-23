@@ -8,11 +8,12 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RepositoryRestResource
-public interface PaymentRepository extends BaseRepository<Payment, Long> {
+public interface PaymentRepository extends BaseRepository<Payment, UUID> {
 
     List<Payment> findByStatus(@Param("status") PaymentStatus status, Pageable pageable);
 
-    Optional<Payment> findByOrderId(@Param("orderId") Long orderId);
+    Optional<Payment> findByOrderId(@Param("orderId") UUID orderId);
 }

@@ -7,9 +7,10 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RepositoryRestResource
-public interface UserRepository extends BaseRepository<User, Long> {
+public interface UserRepository extends BaseRepository<User, UUID> {
 
     List<User> findByRole(Role role, Pageable pageable);
 

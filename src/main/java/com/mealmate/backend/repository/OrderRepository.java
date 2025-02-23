@@ -9,15 +9,16 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.util.List;
+import java.util.UUID;
 
 @RepositoryRestResource
-public interface OrderRepository extends BaseRepository<Order, Long> {
+public interface OrderRepository extends BaseRepository<Order, UUID> {
 
     List<Order> findByStatus(@Param("status") OrderStatus status, Pageable pageable);
 
     @Query("SELECT o FROM Order o JOIN o.orderItems WHERE o.consumer.id = :consumerId")
-    Page<Order> findByConsumerIdWithItems(@Param("consumerId") Long consumerId, Pageable pageable);
+    Page<Order> findByConsumerIdWithItems(@Param("consumerId") UUID consumerId, Pageable pageable);
 
     @Query("SELECT o FROM Order o WHERE o.rider.id = :riderId")
-    Page<Order> findByRiderId(@Param("riderId") Long riderId, Pageable pageable);
+    Page<Order> findByRiderId(@Param("riderId") UUID riderId, Pageable pageable);
 }

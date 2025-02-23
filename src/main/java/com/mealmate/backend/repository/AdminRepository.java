@@ -8,9 +8,10 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RepositoryRestResource
-public interface AdminRepository extends BaseRepository<Admin, Long> {
+public interface AdminRepository extends BaseRepository<Admin, UUID> {
 
     Optional<Admin> findByEmail(String email);
 
