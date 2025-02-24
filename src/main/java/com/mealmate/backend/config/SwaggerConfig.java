@@ -3,6 +3,7 @@ package com.mealmate.backend.config;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.servers.Server;
+import io.swagger.v3.oas.models.tags.Tag;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -26,7 +27,22 @@ public class SwaggerConfig {
                                 new Server().url("https://mealmate-backend.onrender.com")
                                         .description("Production Server")
                         )
-                ); // TODO: Change production server url after deployment
+                ) // TODO: Change production server url after deployment
+                .tags(
+                        List.of(
+                                new Tag().name("Authentication API"),
+                                new Tag().name("User API"),
+                                new Tag().name("Consumer API"),
+                                new Tag().name("Admin API"),
+                                new Tag().name("Restaurant API"),
+                                new Tag().name("Rider API"),
+                                new Tag().name("Menu Item API"),
+                                new Tag().name("Order API"),
+                                new Tag().name("Order Item API"),
+                                new Tag().name("Payment API"),
+                                new Tag().name("profile-controller")
+                        )
+                );
 
     }
 }
