@@ -4,6 +4,7 @@ import com.mealmate.backend.dto.*;
 import com.mealmate.backend.entity.*;
 import com.mealmate.backend.repository.UserRepository;
 import com.mealmate.backend.service.JwtService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
+@Tag(name = "Authentication API")
 @RequestMapping("/auth")
 public class AuthController {
 
