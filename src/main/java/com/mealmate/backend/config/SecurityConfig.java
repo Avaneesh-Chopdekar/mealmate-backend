@@ -7,6 +7,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -17,6 +18,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 // TODO: In future, restrict swagger-ui access to admin only
 
 @RequiredArgsConstructor
+@EnableWebSecurity
 @Configuration
 public class SecurityConfig {
 
@@ -33,8 +35,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .requestMatchers("/api/restaurant/**").hasAnyRole("RESTAURANT", "ADMIN")
                         .requestMatchers("/api/rider/**").hasAnyRole("RIDER", "ADMIN")
-                        .requestMatchers("/api/**").authenticated()
-                        .anyRequest().permitAll())
+                        .requestMatchers("/api/**").authenticated())
                 .exceptionHandling(ex ->
                         ex.authenticationEntryPoint(customAuthenticationEntryPoint))
                 .sessionManagement(session ->
