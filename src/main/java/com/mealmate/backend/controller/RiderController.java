@@ -17,7 +17,7 @@ import java.util.UUID;
 @RequestMapping("/riders")
 public class RiderController {
 
-    private OrderRepository orderRepository;
+    private final OrderRepository orderRepository;
 
     @PutMapping("/{orderId}/deliver")
     public ResponseEntity<Order> markAsDelivered(@PathVariable UUID orderId) {
