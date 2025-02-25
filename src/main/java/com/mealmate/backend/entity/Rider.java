@@ -19,4 +19,7 @@ public class Rider extends User {
 
     @OneToMany(mappedBy = "rider", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Order> deliveries = new ArrayList<>();
+
+    @Column(name = "image_url")
+    private String imageUrl;
 }
