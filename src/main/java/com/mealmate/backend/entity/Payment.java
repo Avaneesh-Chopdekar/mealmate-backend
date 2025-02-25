@@ -21,6 +21,10 @@ public class Payment extends BaseEntity {
     @DecimalMin("0.1")
     private Double amount;
 
+    @NotNull
+    @Column(nullable = false)
+    private String currency = "INR";
+
     @NotBlank
     private String paymentMethod; // Example: "Credit Card", "Cash On Delivery"
 }
