@@ -1,7 +1,10 @@
 package com.mealmate.backend.config;
 
+import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.oas.models.tags.Tag;
 import org.springframework.context.annotation.Bean;
@@ -22,9 +25,9 @@ public class SwaggerConfig {
         )
                 .servers(
                         List.of(
-                                new Server().url("http://localhost:8080")
+                                new Server().url("http://localhost:8080/api")
                                         .description("Local Development Server"),
-                                new Server().url("https://mealmate-backend.onrender.com")
+                                new Server().url("https://mealmate-backend.onrender.com/api")
                                         .description("Production Server")
                         )
                 ) // TODO: Change production server url after deployment
@@ -42,7 +45,17 @@ public class SwaggerConfig {
                                 new Tag().name("Payment API"),
                                 new Tag().name("profile-controller")
                         )
-                );
+                )
+                .addSecurityItem(new SecurityRequirement().addList("bearerAuth"))
+                .components(new Components().addSecuritySchemes(
+                        "bearerAuth", new SecurityScheme()
+                                .type(SecurityScheme.Type.HTTP)
+                                .scheme("bearer")
+                                .bearerFormat("JWT")
+                                .in(SecurityScheme.In.HEADER)
+                                .name("Authorization")
+                ))
+                ;
 
     }
 }
