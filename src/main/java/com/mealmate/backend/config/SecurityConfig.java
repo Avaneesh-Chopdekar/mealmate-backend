@@ -30,16 +30,16 @@ public class SecurityConfig {
         http
             .csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(auth->
-                auth
-                        .requestMatchers("/api/auth/**", "/api/swagger-ui/**").permitAll()
-                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/api/restaurant/**").hasAnyRole("RESTAURANT", "ADMIN")
-                        .requestMatchers("/api/rider/**").hasAnyRole("RIDER", "ADMIN")
-                        .requestMatchers("/api/**").authenticated())
+                    auth
+                            .requestMatchers("/auth/**", "/swagger-ui/**", "/v3/api-docs/**", "/docs", "/actuator/**").permitAll()
+                            .requestMatchers("/admin/**").hasRole("ADMIN")
+                            .requestMatchers("/restaurant/**").hasAnyRole("RESTAURANT", "ADMIN")
+                            .requestMatchers("/rider/**").hasAnyRole("RIDER", "ADMIN")
+                            .anyRequest().authenticated())
                 .exceptionHandling(ex ->
                         ex.authenticationEntryPoint(customAuthenticationEntryPoint))
                 .sessionManagement(session ->
-                    session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
