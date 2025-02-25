@@ -15,7 +15,7 @@ import java.util.List;
 public class Rider extends User {
 
     @NotBlank
-    private String vehicleType; // Example: "Bike", "Car"
+    private String vehicleType = "Bike"; // Example: "Bike", "Car"
 
     @OneToMany(mappedBy = "rider", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Order> deliveries = new ArrayList<>();
