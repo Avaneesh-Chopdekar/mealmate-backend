@@ -33,6 +33,7 @@ public class ImageUploadController {
         ImageInfo imageInfo = imageUploadService.uploadImage(file, "menu-items");
         MenuItem menuItem = menuItemRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("MenuItem not found"));
+        menuItem.setCloudinaryPublicId(imageInfo.publicId());
         menuItem.setImageUrl(imageInfo.secureUrl());
         menuItemRepository.save(menuItem);
         return ResponseEntity.ok(imageInfo);
