@@ -13,4 +13,7 @@ public class CustomProperties {
     private String jwtSecret;
     private long accessTokenExpiration;
     private long refreshTokenExpiration;
+    private String cloudinaryCloudName;
+    private String cloudinaryApiKey;
+    private String cloudinaryApiSecret;
 }
