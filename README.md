@@ -1,5 +1,5 @@
 # MealMate Backend
-Food Delivery Application by Avaneesh Chopdekar
+Food Delivery Application by Avaneesh Chopdekar    
 Version 1.0.0
 
 ### **Tech Stack**
