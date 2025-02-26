@@ -108,7 +108,7 @@ Alternatively, if using **IntelliJ**, you can:
 ---
 
 ## 📝 **License**
-[MIT License](https://github.com/Avaneesh-Chopdekar/mealmate-backend/blob/main/LICENSE)
+[MIT License](https://github.com/Avaneesh-Chopdekar/mealmate-backend/blob/master/LICENSE)
 
 ---
 
