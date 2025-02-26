@@ -43,6 +43,7 @@ public class SwaggerConfig {
                                 new Tag().name("Order API"),
                                 new Tag().name("Order Item API"),
                                 new Tag().name("Payment API"),
+                                new Tag().name("Image Upload API"),
                                 new Tag().name("profile-controller")
                         )
                 )
