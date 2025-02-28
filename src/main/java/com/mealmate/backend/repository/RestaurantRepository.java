@@ -22,4 +22,9 @@ public interface RestaurantRepository extends BaseRepository<Restaurant, UUID> {
 
     @Query("SELECT r FROM Restaurant r LEFT JOIN FETCH r.menuItems WHERE r.id = :id")
     Optional<Restaurant> findByIdWithMenu(@Param("id") UUID id);
+
+    List<Restaurant> findByNameContainingIgnoreCase(@Param("name") String name, Pageable pageable);
+
+    @Query("SELECT DISTINCT r FROM Restaurant r JOIN r.menuItems m WHERE LOWER(m.name) LIKE LOWER(CONCAT('%', :menuItem, '%'))")
+    List<Restaurant> findByMenuItem(@Param("menuItem") String menuItem, Pageable pageable);
 }
