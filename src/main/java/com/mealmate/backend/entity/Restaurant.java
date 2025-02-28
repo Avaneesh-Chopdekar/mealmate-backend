@@ -21,6 +21,9 @@ public class Restaurant extends User {
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<MenuItem> menuItems = new ArrayList<>();
 
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Favorite> favorites = new ArrayList<>();
+
 
     @ElementCollection
     @CollectionTable(name = "restaurant_images", joinColumns = @JoinColumn(name = "restaurant_id"))
