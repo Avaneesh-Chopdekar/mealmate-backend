@@ -10,5 +10,5 @@ import java.util.UUID;
 @Repository
 @RepositoryRestResource(collectionResourceRel = "favorites", path = "favorites")
 public interface FavoriteRepository extends BaseRepository<Favorite, UUID> {
-    List<Favorite> findByUserId(UUID userId);
+    List<Favorite> findByConsumerId(UUID consumerId);
 }

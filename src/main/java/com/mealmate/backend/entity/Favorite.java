@@ -15,10 +15,6 @@ public class Favorite extends BaseEntity {
     private Consumer consumer;
 
     @ManyToOne
-    @JoinColumn(name = "restaurant_id")
-    private Restaurant restaurant;
-
-    @ManyToOne
     @JoinColumn(name = "menu_item_id")
     private MenuItem menuItem;
 }
